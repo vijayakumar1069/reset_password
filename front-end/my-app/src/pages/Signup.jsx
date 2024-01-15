@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Signup() {
   const [formdata, setFormdata] = useState({
@@ -8,9 +9,11 @@ function Signup() {
   });
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+
   const handlechange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
+
   const handlesubmit = async (e) => {
     e.preventDefault();
     const res = await fetch("/api/admin/signup", {
@@ -23,18 +26,19 @@ function Signup() {
     const data = await res.json();
     if (data.success === false) {
       setError(data.message);
+      setSuccess(false);
       return;
     }
     setSuccess(data.result);
     setError(false);
   };
-  console.log(formdata);
+
   return (
     <form
       onSubmit={handlesubmit}
       className="max-w-md mx-auto p-6 mt-10 bg-gradient-to-br from-[#86A7FC] to-[#FF9BD2] rounded-lg shadow-lg hover:shadow-xl"
     >
-      <h1 className="text-5xl font-bold text-white mb-4 text-center ">
+      <h1 className="text-5xl font-bold text-white mb-4 text-center">
         Sign up
       </h1>
 
@@ -76,11 +80,15 @@ function Signup() {
           Signup
         </button>
       </div>
+
       {error && (
-        <p className="p-2 text-[#11009E] font-semibold text-center">{error}</p>
+        <p className="p-2 text-white font-semibold text-center bg-red-600 bg-opacity-85 rounded-md">
+          {error}
+        </p>
       )}
+
       {success && (
-        <p className="p-2 text-green-700 font-semibold text-center">
+        <p className="p-2 text-green-700 font-semibold text-center bg-white bg-opacity-20 rounded-md">
           {success}
         </p>
       )}
@@ -88,9 +96,12 @@ function Signup() {
       <div className="text-white">
         <span className="text-black">
           If you have an account please{" "}
-          <span className="hover:underline text-[#FF004D] cursor-pointer ">
-            LOGIN
-          </span>{" "}
+          <Link to="/login">
+            {" "}
+            <span className="hover:underline text-[#FF004D] cursor-pointer">
+              LOGIN
+            </span>{" "}
+          </Link>
           here
         </span>
       </div>
