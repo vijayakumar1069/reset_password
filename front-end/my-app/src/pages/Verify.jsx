@@ -30,7 +30,7 @@ export const Verify = () => {
         onClick={handleclick}
         className="px-6 py-3 font-semibold bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
       >
-        Verify
+        Please Verify
       </button>
     </div>
   );
