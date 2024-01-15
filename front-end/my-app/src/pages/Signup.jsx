@@ -6,12 +6,27 @@ function Signup() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const handlechange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value });
   };
-  const handlesubmit = (e) => {
+  const handlesubmit = async (e) => {
     e.preventDefault();
-    console.log("hii ")
+    const res = await fetch("/api/admin/signup", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(formdata),
+    });
+    const data = await res.json();
+    if (data.success === false) {
+      setError(data.message);
+      return;
+    }
+    setSuccess(data.result);
+    setError(false);
   };
   console.log(formdata);
   return (
@@ -61,6 +76,14 @@ function Signup() {
           Signup
         </button>
       </div>
+      {error && (
+        <p className="p-2 text-[#11009E] font-semibold text-center">{error}</p>
+      )}
+      {success && (
+        <p className="p-2 text-green-700 font-semibold text-center">
+          {success}
+        </p>
+      )}
 
       <div className="text-white">
         <span className="text-black">
